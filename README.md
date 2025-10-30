@@ -65,3 +65,36 @@ A bash script with input as gtf file, chromosome and type(optional) can be found
 /gene_count.sh -gtf "gencode.v49.annotation.gtf" -chr "chr17" -type "protein_coding"
 ```
 </details>
+
+## Find the average length of reads
+In the FASTQ file, each read is contains 4 lines - sequence id, sequence, + sign and Phred score.Find the average length of the reads from FASTQ fil.
+> *Note:* BCL files from NextSeq, HiSeq Systems and NovoSeq 6000 can be converted to FATSQ files with the help of **Illumina bcl2fastq2 Conversion Software v2. 20**, which demultiplexes the sequence data.
+<details>
+<summary><strong> Workflow </summary></strong>
+### Length of sequence per read
+The sequence are at every 2nd line for each read. Therefore is order to find the length of the sequence per read:
+```
+awk 'NR%4==2 { print length($0) }' < example.fastq
+```
+### Total length of sequence in whole file
+The `awk` iterates through each lines and add the value to the `total` variable of each line.
+```
+awk 'NR%4==2 { total+= length($0) } END {print total}' < example.fastq
+```
+### Counting the number of reads
+Since it reads is contained in 4 lines, the total lines/ 4 would give us the no. of reads
+```
+echo $(($(wc -l < example.fastq)/4))
+```
+## Consolidated script
+```
+total_read=$(($(wc -l < example.fastq) / 4))
+echo $(awk -v n="$total_read" 'NR%4==2 { total += length($0) } END { print total / n }' < example.fastq)
+```
+## Alternative
+The `++` command is an increment operator which increases the value by 1 for each read processed and stored in `read` variable
+```
+awk 'NR%4==2 { total+= length($0); read++ } END { print total/read }' example.fastq
+```
+> *Note:* `awk` initialises variable to zero by default
+</details>
