@@ -1,9 +1,9 @@
 # Mini-tasks
 
 ## Counting genes
-Find the number of genes in chromosome
+Find the number of genes in each chromosome using gene annotation file. The genes are to be further filtered based on their gene type.
 <details>
-<summary><strong> *Workflow* </summary></strong>
+<summary><strong> Workflow </summary></strong>
 
 ### Download gene annotation file
 The gene annotation file cam be found in GENECODE website. The corresponding GFF/GTF file can be downloaded and uncompressed through:
