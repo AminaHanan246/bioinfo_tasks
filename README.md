@@ -1,6 +1,6 @@
-# Mini-tasks
+# Bioinfo-tasks
 
-## Counting genes
+## Counting genes in each chromosomes
 Find the number of genes in each chromosome using gene annotation file. The genes are to be further filtered based on their gene type.
 <details>
 <summary><strong> Workflow </summary></strong>
