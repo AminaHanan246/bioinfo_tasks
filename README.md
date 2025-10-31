@@ -73,7 +73,7 @@ In the FASTQ file, each read is contains 4 lines - sequence id, sequence, + sign
 <summary><strong> Workflow </summary></strong>
 
 ### Length of sequence per read
-The sequence are at every 2nd line for each read. Therefore is order to find the length of the sequence per read:
+The sequence are at every 2nd line for each read and `$0` represents the entire line of input. Therefore is order to find the length of the sequence per read:
 
 ```
 awk 'NR%4==2 { print length($0) }' < example.fastq
@@ -98,7 +98,7 @@ echo $(($(wc -l < example.fastq)/4))
 total_read=$(($(wc -l < example.fastq) / 4))
 echo $(awk -v n="$total_read" 'NR%4==2 { total += length($0) } END { print total / n }' < example.fastq)
 ```
-## Alternative
+### Alternative
 The `++` command is an increment operator which increases the value by 1 for each read processed and stored in `read` variable
 
 ```
@@ -108,3 +108,39 @@ awk 'NR%4==2 { total+= length($0); read++ } END { print total/read }' example.fa
 > *Note:* `awk` initialises variable to zero by default
 
 </details>
+
+## Frequency of sequence length
+The number of reads with unique legth is calculated
+
+<details>
+<summary><strong> Workflow </summary></strong>
+
+
+### Length of sequence per read
+The sequence are at every 2nd line for each read. Therefore is order >
+
+```
+awk 'NR%4==2 { print length($0) }' < example.fastq
+```
+
+### Sort the length
+The length of sequences are sorted based on their size
+
+```
+sort -n
+```
+
+### Unique read length count
+Count how many times each unique read length occurs
+```
+uniq -c
+```
+
+## Consolidated script
+```
+cat example.fastq | awk '{if(NR%4==2) print length($1)}' | sort -n | uniq -c > read_length.txt
+```
+
+</details>
+
+## Find the GC% content
